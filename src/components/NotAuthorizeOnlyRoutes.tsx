@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
-import { selectToken } from "src/features/user/userSlice";
+import { selectToken } from "src/app/features/user/userSlice";
 
 const NotAuthorizeOnlyRoutes = () => {
   const token = useAppSelector(selectToken);

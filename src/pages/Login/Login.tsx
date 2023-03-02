@@ -15,6 +15,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
+import { useLoginMutation } from "src/api/auth";
 
 const formSx = {
   maxWidth: 500,
@@ -27,11 +28,12 @@ const formSx = {
 };
 const LoginForm: React.FC = forwardRef(
   (props, ref: ForwardedRef<HTMLDivElement | null>) => {
+    const [fetchLogin, { isLoading }] = useLoginMutation();
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () => console.log(login, password);
+    const handleLogin = () => fetchLogin({ username: login, password });
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const changeLogin = (event: React.ChangeEvent<HTMLInputElement>) =>
       setLogin(event.target.value);
@@ -83,7 +85,12 @@ const LoginForm: React.FC = forwardRef(
           <Button variant="text" onClick={clearInputs}>
             Очистить
           </Button>
-          <LoadingButton variant="contained" onClick={handleLogin}>
+          <LoadingButton
+            disabled={isLoading}
+            loading={isLoading}
+            variant="contained"
+            onClick={handleLogin}
+          >
             Войти
           </LoadingButton>
         </Box>
